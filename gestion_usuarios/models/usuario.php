@@ -1,5 +1,7 @@
 <?php
 
+namespace usuario;
+
 class Usuario{
     private $id;
     private $username;
@@ -12,7 +14,7 @@ class Usuario{
     public function setId($value){
         $this->id = $value;
     }
-    public function getUsernamed(){
+    public function getUsername(){
         return $this->username;
     }
     public function setUsername($value){

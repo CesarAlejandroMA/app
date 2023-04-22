@@ -4,25 +4,50 @@ namespace usuarioController;
 
 use baseControler\BaseController;
 use conexionDb\ConexionDbController;
+use usuario\Usuario;
 
     class UsuarioController extends BaseController
     {
 
-        function create(){
-
+        function create($usuario){
+            $sql = 'insert into usuarios ';
+            $sql .= '(id,name,username,password) values';
+            $sql .= '(';
+            $sql .= $usuario->getId().',';
+            $sql .= '"' . $usuario->getName() . '",';
+            $sql .= '"' . $usuario->getUsername() . '",';
+            $sql .= '"' . $usuario->getPassword() . '"';
+            $sql .= ')';
+            $conexiondb = new ConexionDbController();
+            $resultadoSQL = $conexiondb->execSQL($sql);
+            $conexiondb->close();
+            return $resultadoSQL;
         }
         function read(){
             $sql = 'select * from usuarios'; //Traer los usuarios
             $conexiondb = new ConexionDbController();
-            $usuarios = $conexiondb->execSQL($sql);
+            $resultadoSQL = $conexiondb->execSQL($sql);
+            $usuarios = [];
+            while($registro = $resultadoSQL -> fetch_assoc()){ //fetch: recorrer resultados del SQL
+                $usuario = new Usuario();
+                $usuario ->setId($registro['id']);
+                $usuario ->setName($registro['name']);
+                $usuario ->setUsername($registro['username']);
+                $usuario ->setPassword('');
+                array_push($usuarios, $usuario);
+            }
             $conexiondb->close();
             return $usuarios;
         }
         function update(){
             
         }
-        function delete(){
-            
+        function delete($id){
+            $sql = 'delete from usuarios where id=' . $id;
+            $conexiondb = new ConexionDbController();
+            $resultadoSQL = $conexiondb->execSQL($sql);
+            $conexiondb->close();
+            return $resultadoSQL;
         }
 
     }
