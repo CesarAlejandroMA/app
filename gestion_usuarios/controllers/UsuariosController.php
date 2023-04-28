@@ -23,12 +23,13 @@ use usuario\Usuario;
             $conexiondb->close();
             return $resultadoSQL;
         }
+
         function read(){
             $sql = 'select * from usuarios'; //Traer los usuarios
             $conexiondb = new ConexionDbController();
             $resultadoSQL = $conexiondb->execSQL($sql);
             $usuarios = [];
-            while($registro = $resultadoSQL -> fetch_assoc()){ //fetch: recorrer resultados del SQL
+            while($registro = $resultadoSQL -> fetch_assoc()){ //fetch_assoc: recorrer resultados del SQL
                 $usuario = new Usuario();
                 $usuario ->setId($registro['id']);
                 $usuario ->setName($registro['name']);
@@ -39,9 +40,35 @@ use usuario\Usuario;
             $conexiondb->close();
             return $usuarios;
         }
-        function update(){
-            
+
+        function readRow($id){
+            $sql = 'select * from usuarios'; //Traer los usuarios
+            $sql .= ' where id=' .$id;
+            $conexiondb = new ConexionDbController();
+            $resultadoSQL = $conexiondb->execSQL($sql);
+            $usuario = new Usuario();
+            while($registro = $resultadoSQL -> fetch_assoc()){ //fetch_assoc: recorrer resultados del SQL
+                $usuario ->setId($registro['id']);
+                $usuario ->setName($registro['name']);
+                $usuario ->setUsername($registro['username']);
+                $usuario ->setPassword('');
+            }
+            $conexiondb->close();
+            return $usuario;
         }
+
+        function update($id, $usuario){
+            $sql = 'update usuarios set ';
+            $sql .= 'name="' .$usuario->getName() .'",';
+            $sql .= 'username="' .$usuario->getUsername() .'",';
+            $sql .= 'name="' .$usuario->getPassword() .'" ';
+            $sql .= ' where id=' . $id;
+            $conexiondb = new ConexionDbController();
+            $resultadoSQL = $conexiondb->execSQL($sql);
+            $conexiondb->close();
+            return $resultadoSQL;
+        }
+
         function delete($id){
             $sql = 'delete from usuarios where id=' . $id;
             $conexiondb = new ConexionDbController();

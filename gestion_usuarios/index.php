@@ -41,7 +41,8 @@ $usuarios = $usuarioController->read();
                     echo '<td>' . $usuario->getName() . '</td>';
                     echo '<td>' . $usuario->getUsername() . '</td>';
                     echo '<td>';
-                    echo '<a href="views/accion_borrar_usuario.php?id=' . $usuario->getId() .'">borrar</a>';
+                    echo '      <a href="views/form_usuario.php?id=' . $usuario->getId() .'">modificar</a>';
+                    echo '      <a href="views/accion_borrar_usuario.php?id=' . $usuario->getId() .'">borrar</a>';
                     echo '</td>';
                     echo '</tr>';
                 }
